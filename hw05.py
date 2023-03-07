@@ -21,23 +21,15 @@ def gen_perms(seq):
     [['a', 'b'], ['b', 'a']]
     """
     "*** YOUR CODE HERE ***"
-    if len(seq) == 1:
-        yield seq
+    if len(seq) == 0:
+        yield []
     else:
         for i in range(len(seq)):
             rest = seq[:i] + seq[i+1:]
             for perm in gen_perms(rest):
-                yield [seq[i]] + perm
-            
-perms = gen_perms([100])
-type(perms)
-sorted(gen_perms([1, 2, 3]))
-# perms = gen_perms([100])
-# type(perms)
-# next(perms)
-# next(perms)
-# sorted(gen_perms([1, 2, 3]))
-    
+                result = [seq[i]]
+                result.extend(perm)
+                yield result
 
 
 def path_yielder(t, value):
