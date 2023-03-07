@@ -32,47 +32,6 @@ def gen_perms(seq):
                 yield result
 
 
-def path_yielder(t, value):
-    """Yields all possible paths from the root of t to a node with the label
-    value as a list.
-
-    >>> t1 = tree(1, [tree(2, [tree(3), tree(4, [tree(6)]), tree(5)]), tree(5)])
-    >>> print_tree(t1)
-    1
-      2
-        3
-        4
-          6
-        5
-      5
-    >>> next(path_yielder(t1, 6))
-    [1, 2, 4, 6]
-    >>> path_to_5 = path_yielder(t1, 5)
-    >>> sorted(list(path_to_5))
-    [[1, 2, 5], [1, 5]]
-
-    >>> t2 = tree(0, [tree(2, [t1])])
-    >>> print_tree(t2)
-    0
-      2
-        1
-          2
-            3
-            4
-              6
-            5
-          5
-    >>> path_to_2 = path_yielder(t2, 2)
-    >>> sorted(list(path_to_2))
-    [[0, 2], [0, 2, 1, 2]]
-    """
-    "*** YOUR CODE HERE ***"
-    for _______________ in _________________:
-        for _______________ in _________________:
-            "*** YOUR CODE HERE ***"
-
-
-
 class Tree:
     """
     >>> t = Tree(3, [Tree(2, [Tree(5)]), Tree(4)])
@@ -114,9 +73,57 @@ label = lambda t: t.label
 branches = lambda t: t.branches
 print_tree = lambda t: print(t)
 
+def path_yielder(t, value):
+    """Yields all possible paths from the root of t to a node with the label
+    value as a list.
 
+    >>> t1 = tree(1, [tree(2, [tree(3), tree(4, [tree(6)]), tree(5)]), tree(5)])
+    >>> print_tree(t1)
+    1
+      2
+        3
+        4
+          6
+        5
+      5
+    >>> next(path_yielder(t1, 6))
+    [1, 2, 4, 6]
+    >>> path_to_5 = path_yielder(t1, 5)
+    >>> sorted(list(path_to_5))
+    [[1, 2, 5], [1, 5]]
 
+    >>> t2 = tree(0, [tree(2, [t1])])
+    >>> print_tree(t2)
+    0
+      2
+        1
+          2
+            3
+            4
+              6
+            5
+          5
+    >>> path_to_2 = path_yielder(t2, 2)
+    >>> sorted(list(path_to_2))
+    [[0, 2], [0, 2, 1, 2]]
+    """
+    "*** YOUR CODE HERE ***"
+    if t is None:
+        return []
+    if label(t) == value:
+        yield [label(t)]
+    for b in branches(t):
+        for yield_boi in path_yielder(b,value):
+            yield [label(t)] + yield_boi
 
+    "*** YOUR CODE HERE ***"
+    # if label(t) == value:
+    #     return[label(t)]
+    # else:
+    #     yield_list = [label(t)]
+    #     for b in branches(t):
+    #         yield_list.extend(path_yielder(b,value))
+    #     yield from yield_list
 
 def preorder(t):
     """Return a list of the entries in this tree in the order that they
@@ -150,6 +157,12 @@ def generate_preorder(t):
     [2, 3, 4, 5, 6, 7]
     """
     "*** YOUR CODE HERE ***"
+    if t is None:
+        return []
+    final_list = [label(t)]
+    for b in branches(t):
+        final_list.extend(preorder(b))
+    yield from final_list
 
 
 def remainders_generator(m):
